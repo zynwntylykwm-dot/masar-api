@@ -1,0 +1,64 @@
+# ============================================================================
+#  render.yaml — نشر «المسار العالمي اللوجستي» على Render بضغطة واحدة
+#  ---------------------------------------------------------------------------
+#  الطريقة: ارفع المشروع إلى GitHub ثم في Render اختر:
+#           New + → Blueprint → اختر المستودع → Apply.
+#  سيُنشئ Render الخدمة والقرص الدائم تلقائيًا من هذا الملف.
+#
+#  ⚠️ مهم جدًا: بدون القرص الدائم (disk) تضيع البيانات (مستخدمون/محفظة/مزادات)
+#     عند كل إعادة نشر، لأن قرص Render الافتراضي مؤقت.
+#
+#  بعد النشر ستحصل على رابط مثل: https://masar-api.onrender.com
+#  ضعه في التطبيق: الإعدادات ← 🌐 خادم النظام ← عنوان الخادم.
+# ============================================================================
+services:
+  - type: web
+    name: masar-api
+    runtime: node
+    plan: starter              # free مدعوم لكن القرص الدائم يحتاج خطة مدفوعة
+    region: frankfurt          # أقرب منطقة لليمن/الشرق الأوسط (غيّرها إن أردت)
+    branch: main
+    buildCommand: "echo 'لا توجد تبعيات — الخادم بلا npm install'"
+    startCommand: "node server/server.js"
+    healthCheckPath: /health
+    autoDeploy: true
+    disk:
+      name: masar-data
+      mountPath: /data         # يجب أن يطابق DATA_DIR
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: DATA_DIR
+        value: /data
+      - key: STORAGE_PERSISTENT
+        value: "true"
+      - key: TZ
+        value: Asia/Aden
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: LOGIN_RATE_LIMIT
+        value: "40"
+      # ⬇️ هذه تُدخل يدويًا في لوحة Render (لا تُخزَّن في المستودع)
+      - key: ADMIN_PASSWORD
+        sync: false            # كلمة مرور المدير العام — مطلوبة عند أول تشغيل
+      - key: PUBLIC_URL
+        sync: false            # مثال: https://masar-api.onrender.com
+      - key: VAPID_SUBJECT
+        sync: false
+      - key: FCM_SERVICE_ACCOUNT
+        sync: false
+      - key: APNS_KEY_P8
+        sync: false
+      - key: APNS_KEY_ID
+        sync: false
+      - key: APNS_TEAM_ID
+        sync: false
+      - key: AI_API_KEY
+        sync: false            # اختياري — لتفعيل المساعد الذكي بنموذج حقيقي
+      - key: 17TRACK_API_KEY
+        sync: false
+      - key: DHL_API_KEY
+        sync: false

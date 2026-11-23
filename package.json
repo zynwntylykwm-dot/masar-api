@@ -1,0 +1,31 @@
+{
+  "name": "masar-logistics",
+  "version": "3.8.0-phase5-cloud",
+  "private": true,
+  "description": "المسار العالمي اللوجستي — منصة لوجستية: واجهة النظام الأصلية + خادم API وقاعدة بيانات ومصادقة حقيقية",
+  "scripts": {
+    "start": "node server/server.js",
+    "test": "npm run test:all",
+    "test:api": "node scripts/test-api.mjs",
+    "test:ui": "node scripts/test-ui.js",
+    "test:e2e": "node scripts/test-e2e.js",
+    "seed": "node scripts/extract-seed.js",
+    "smoke": "node scripts/smoke-health.js",
+    "test:auctions": "node scripts/test-auctions.mjs",
+    "test:auctions:ui": "node scripts/test-auctions-ui.js",
+    "test:phase2": "node scripts/test-auctions.mjs && node scripts/test-auctions-ui.js",
+    "test:all": "node scripts/test-api.mjs && node scripts/test-ui.js && node scripts/test-e2e.js && node scripts/test-auctions.mjs && node scripts/test-auctions-ui.js && node scripts/test-admin.js && node scripts/test-phase4.js && node scripts/test-phase5.js && node scripts/test-deploy.js",
+    "test:admin": "node scripts/test-admin.js",
+    "test:phase3": "node scripts/test-admin.js",
+    "test:phase4": "node scripts/test-phase4.js",
+    "test:phase5": "node scripts/test-phase5.js",
+    "test:deploy": "node scripts/test-deploy.js"
+  },
+  "engines": {
+    "node": ">=20"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "jsdom": "^24.1.3"
+  }
+}

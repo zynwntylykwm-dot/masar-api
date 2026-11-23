@@ -1,0 +1,40 @@
+# ============================================================================
+#  render.yaml — الإصدار المدفوع (قرص دائم — بيانات لا تُفقد)
+#  ---------------------------------------------------------------------------
+#  هذا الملف للخطة المدفوعة (7$/شهر): قرص دائم + بيانات لا تُفقد.
+#  للتبديل إليه: احذف render.yaml وأعد تسمية هذا الملف إلى render.yaml ثم Push.
+# ============================================================================
+services:
+  - type: web
+    name: masar-api
+    runtime: node
+    plan: starter
+    region: frankfurt
+    branch: main
+    buildCommand: "echo 'لا توجد تبعيات — الخادم يعمل بـ Node فقط'"
+    startCommand: "node server/server.js"
+    healthCheckPath: /health
+    autoDeploy: true
+    disk:
+      name: masar-data
+      mountPath: /opt/render/project/src/data
+      sizeGB: 1
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: HOST
+        value: 0.0.0.0
+      - key: DATA_DIR
+        value: /opt/render/project/src/data
+      - key: STORAGE_PERSISTENT
+        value: "true"
+      - key: TZ
+        value: Asia/Aden
+      - key: CORS_ORIGINS
+        value: "*"
+      - key: SEED_DEMO
+        value: "1"
+      - key: LOGIN_RATE_LIMIT
+        value: "40"
+      - key: ADMIN_PASSWORD
+        sync: false
